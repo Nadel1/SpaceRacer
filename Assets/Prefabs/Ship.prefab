@@ -341,6 +341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocityText: {fileID: 0}
+  boostAmount: 0
 --- !u!65 &6746772126908577704
 BoxCollider:
   m_ObjectHideFlags: 0

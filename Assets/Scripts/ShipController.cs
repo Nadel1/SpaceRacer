@@ -15,6 +15,9 @@ public class ShipController : MonoBehaviour
 
 
     private float forwardVel;
+    private float slowDownTo;
+    private float boostedCount=0;
+    public float boostAmount;
 
 
     private GameObject engineSlot;
@@ -51,10 +54,20 @@ public class ShipController : MonoBehaviour
     {
 
         Rotate();
+
         //moves ship forward until while clamping the velocity (hindering inifinte velocity)
-        if (Input.GetButton("move")&&forwardVel<maxSpeed)
+        if (Input.GetButton("Move")&&forwardVel<maxSpeed)
         {
             forwardVel += moveSpeed;
+        }
+        if (Input.GetButton("Boost"))
+        {
+            slowDownTo = forwardVel;
+            forwardVel += boostAmount;
+            boostedCount += 1;
+            StopAllCoroutines();
+            StartCoroutine("SlowDown");
+
         }
         //stops ship without turning it around
         if (Input.GetButton("stop")&&Vector3.Dot(transform.forward,rb.velocity)>0)
@@ -62,15 +75,25 @@ public class ShipController : MonoBehaviour
 
             forwardVel -= stopSpeed;
         }
+        
+            //clamp the velocity for the display
+            //forwardVel = Mathf.Clamp(forwardVel, 0, maxSpeed);
+            //actually moves the ship
+            rb.velocity = transform.forward * forwardVel;
+            //display current velocity
+            velocityText.text = forwardVel.ToString("0.0");
+        
 
-        //clamp the velocity for the display
-        forwardVel = Mathf.Clamp(forwardVel, 0, maxSpeed);
-        //actually moves the ship
-        rb.velocity = transform.forward * forwardVel;
-        //display current velocity
-        velocityText.text = forwardVel.ToString("0.0"); 
+        
     }
-
+    IEnumerator SlowDown()
+    {
+        while (forwardVel > slowDownTo)
+        {
+            forwardVel -= 5;
+            yield return new WaitForSeconds(1f);
+        }
+    }
     
     private void Rotate()
     {
