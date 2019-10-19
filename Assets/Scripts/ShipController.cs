@@ -15,9 +15,13 @@ public class ShipController : MonoBehaviour
 
 
     private float forwardVel;
-    private float slowDownTo;
-    private float boostedCount=0;
-    public float boostAmount;
+    private float slowDownTo=0;
+    private float boost=0;
+    private float boostAmount=10;
+    private float actualBoost;
+    private float engineHealth=100.0f;
+    public bool boosted=false;
+    private float boostFactor;
 
 
     private GameObject engineSlot;
@@ -29,6 +33,8 @@ public class ShipController : MonoBehaviour
     private float maxSpeed;
     private float maxTilt;
 
+
+    private float boostStopSpeed;
     private float rotationSpeed;
     private float component;
 
@@ -45,7 +51,8 @@ public class ShipController : MonoBehaviour
         maxSpeed = engineSlot.GetComponentInChildren<EngineSpecs>().getMaxSpeed();
         maxTilt = engineSlot.GetComponentInChildren<EngineSpecs>().getMaxTilt();
 
-
+        slowDownTo = 0;
+        boostStopSpeed = stopSpeed/2;
        component = (float)Math.Pow(minRotSpeed / maxRotSpeed, 1 / maxSpeed);
     }
 
@@ -59,15 +66,14 @@ public class ShipController : MonoBehaviour
         if (Input.GetButton("Move")&&forwardVel<maxSpeed)
         {
             forwardVel += moveSpeed;
-        }
-        if (Input.GetButton("Boost"))
-        {
             slowDownTo = forwardVel;
-            forwardVel += boostAmount;
-            boostedCount += 1;
-            StopAllCoroutines();
-            StartCoroutine("SlowDown");
-
+        }
+        if (Input.GetButton("Boost")&&forwardVel>0)
+        {
+            CalculateBoost();
+            
+            DamageEngine();
+            //Debug.Log(" Goal " + slowDownTo + " is " + forwardVel);
         }
         //stops ship without turning it around
         if (Input.GetButton("stop")&&Vector3.Dot(transform.forward,rb.velocity)>0)
@@ -76,27 +82,75 @@ public class ShipController : MonoBehaviour
             forwardVel -= stopSpeed;
         }
         
-            //clamp the velocity for the display
-            //forwardVel = Mathf.Clamp(forwardVel, 0, maxSpeed);
-            //actually moves the ship
-            rb.velocity = transform.forward * forwardVel;
+        if (boosted && Vector3.Dot(transform.forward, rb.velocity) > 0 && forwardVel > slowDownTo)
+        {
+            if (!Input.GetButton("Boost"))
+            {
+                forwardVel -= stopSpeed;
+            }
+            
+        }
+        if (Vector3.Dot(transform.forward, rb.velocity) <= 0||forwardVel <= slowDownTo)
+        {
+            boosted = false;
+            slowDownTo = forwardVel;
+            boost= 0;
+        }
+        //clamp the velocity for the display
+        forwardVel = Mathf.Clamp(forwardVel, 0, 2500);
+        //actually moves the ship
+        rb.velocity = transform.forward * forwardVel;
             //display current velocity
             velocityText.text = forwardVel.ToString("0.0");
         
 
         
     }
-    IEnumerator SlowDown()
+    void CalculateBoost()
     {
-        while (forwardVel > slowDownTo)
-        {
-            forwardVel -= 5;
-            yield return new WaitForSeconds(1f);
-        }
+        //actualBoost = ( maxSpeed/ forwardVel) * (forwardVel / boostAmount) * engineHealth;
+        //boostFactor makes it so that boosting at lower velocity gives you a bigger boost than boosting
+        //on high velocity
+        boostFactor = -5/maxSpeed * (slowDownTo)+5;
+       
+
+        //the boostFactor is neglected once maxSpeed got reached at the beginning of the boost
+        actualBoost =  (boostFactor+1)*(boostAmount) / (10 * boostAmount * (forwardVel - slowDownTo) + 1)*(engineHealth/100);
+
+        forwardVel += actualBoost;
+
+        boost += actualBoost;
+
+        boosted = true;
+
     }
-    
+
+    void DamageEngine()
+    {
+       // engineHealth -= slowDownTo / 2000000;
+        engineHealth -= 1 / 20;
+        
+        //different damage wether boost is over the maxspeed or not
+        if (forwardVel > maxSpeed)
+        {
+            maxSpeed -= engineHealth/1000;
+        }
+        else
+        {
+            maxSpeed -= engineHealth/100000000;
+        }
+        Debug.Log(maxSpeed);
+        //update slowDownTo so that it´s the current max value and not the max value from before the boost
+        if (slowDownTo > maxSpeed)
+        {
+            slowDownTo = maxSpeed;
+        }
+       
+    }
+  
     private void Rotate()
     {
+        //rotation at medium speed is the highest
         float factor = (float)Math.Sin(((2 * Math.PI) / (2 * maxSpeed)) * (double)forwardVel);
         factor = Mathf.Clamp(factor, 0.28f, 0.9f);
 
