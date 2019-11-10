@@ -15,8 +15,14 @@ MonoBehaviour:
   DatabaseType: 0
   CategoryNames:
   - Custom
+  - CraftingMenu
   - Example
   - General
+  - Weapons
+  - Tier1
   Categories:
+  - {fileID: 11400000, guid: 6a5541dc535a9e14faa4fb02bd2c331b, type: 2}
   - {fileID: 11400000, guid: 40f9e81ff80114a47a3721228ba749ed, type: 2}
   - {fileID: 11400000, guid: 6ab06da3b448a48459cea42dacca4793, type: 2}
+  - {fileID: 11400000, guid: 0cd5a426fb320cd4491403ae850b38e8, type: 2}
+  - {fileID: 11400000, guid: 9e10c52b557c1f3459beb0e08e70be4d, type: 2}

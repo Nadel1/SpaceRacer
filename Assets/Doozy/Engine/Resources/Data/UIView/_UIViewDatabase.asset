@@ -15,8 +15,14 @@ MonoBehaviour:
   DatabaseType: 2
   CategoryNames:
   - Custom
+  - CraftMenu
+  - CraftUnderMenu
   - Example
   - General
+  - WeaponMenu
   Categories:
+  - {fileID: 11400000, guid: 1dc1d9cbc6546324c88b70cafcc90db0, type: 2}
+  - {fileID: 11400000, guid: f20f87793aeb20d4fa0190428a439c02, type: 2}
   - {fileID: 11400000, guid: b01e98f4801f7124ba39e1dac4debf90, type: 2}
   - {fileID: 11400000, guid: f9d7ce5d9a3b83842bbd230378b950ff, type: 2}
+  - {fileID: 11400000, guid: 37cc4899326ac434db959aab1aa4f5f1, type: 2}

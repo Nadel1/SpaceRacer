@@ -8,7 +8,15 @@ public class ShipPickUp : MonoBehaviour
 
     void Start()
     {
-        inventory = GameObject.Find("GameController").GetComponent<Ressources>().inv;
+        if (GetComponent<ShipController>().number == 1)
+        {
+            inventory = GameObject.FindGameObjectWithTag("GameController1").GetComponent<Ressources>().inv;
+        }
+        else
+        {
+            inventory = GameObject.FindGameObjectWithTag("GameController2").GetComponent<Ressources>().inv;
+        }
+        
     }
 
     void OnTriggerEnter(Collider other)

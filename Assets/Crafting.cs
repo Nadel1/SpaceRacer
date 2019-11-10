@@ -20,8 +20,13 @@ public class Crafting : MonoBehaviour
         Destroy(remove.gameObject);
     }
 
-    public void BuildGun()
+    public void BuildGun(GameObject build)
     {
-
+        //find the current gun
+        remove = gunSlot.GetChild(0);
+        //instantiate new engine as child of engineSlot
+        Instantiate(build, gunSlot);
+        build.transform.localPosition = new Vector3(0, 0.25f, 0);
+        Destroy(remove.gameObject);
     }
 }

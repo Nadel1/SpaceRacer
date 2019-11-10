@@ -11,7 +11,15 @@ public class DetectExplosion : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerPos = GameObject.Find("Ship").transform.position;
+        if (tag == "GameController1")
+        {
+            playerPos = GameObject.Find("Ship1").transform.position;
+        }
+        else
+        {
+            playerPos = GameObject.Find("Ship2").transform.position;
+        }
+        
     }
 
     // Update is called once per frame

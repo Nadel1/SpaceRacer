@@ -20,6 +20,8 @@ public class GunBehaviour : MonoBehaviour
     private float fireRate;
 
     private float nextFire;
+
+    private float number;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +32,7 @@ public class GunBehaviour : MonoBehaviour
         projectileSpeed = GetComponentInChildren<GunSpecs>().getProjectileSpeed();
         fireRate = GetComponentInChildren<GunSpecs>().getFireRate();
         range = GetComponentInChildren<GunSpecs>().getRange();
+        number = GetComponentInParent<ShipController>().number;
         
     }
 
@@ -41,23 +44,49 @@ public class GunBehaviour : MonoBehaviour
     }
     void Rotate()
     {
-        xRot = Input.GetAxis("GunX") * maxAngle;
-        yRot = Input.GetAxis("GunY") * maxAngle;
-        Quaternion target = Quaternion.Euler(xRot, yRot, 0);
+        if (number == 1)
+        {
+            xRot = Input.GetAxis("GunX") * maxAngle;
+            yRot = Input.GetAxis("GunY") * maxAngle;
+            Quaternion target = Quaternion.Euler(xRot, yRot, 0);
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
+        }
+        else
+        {
+            xRot = Input.GetAxis("GunX1") * maxAngle;
+            yRot = Input.GetAxis("GunY1") * maxAngle;
+            Quaternion target = Quaternion.Euler(xRot, yRot, 0);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
+        }
+        
 
     }
 
     void Shoot()
     {
-        if (Input.GetButton("Shoot") && Time.time > nextFire)
+        if (number == 1)
         {
-            nextFire = Time.time + fireRate;
-            GameObject shot = Instantiate(projectile, shootFrom.transform.position, gameObject.transform.rotation);
-            shot.GetComponent<Rigidbody>().AddForce(transform.forward*projectileSpeed);
-            Destroy(shot, range);
+            if (Input.GetButton("Shoot") && Time.time > nextFire)
+            {
+                nextFire = Time.time + fireRate;
+                GameObject shot = Instantiate(projectile, shootFrom.transform.position, gameObject.transform.rotation);
+                shot.GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
+                Destroy(shot, range);
+            }
         }
+        else
+        {
+            if (Input.GetButton("Shoot1") && Time.time > nextFire)
+            {
+                nextFire = Time.time + fireRate;
+                GameObject shot = Instantiate(projectile, shootFrom.transform.position, gameObject.transform.rotation);
+                shot.GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
+                Destroy(shot, range);
+            }
+        }
+        
     }
 
     void MoveCrosshair()

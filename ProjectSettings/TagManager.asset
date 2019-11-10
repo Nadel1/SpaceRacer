@@ -7,6 +7,11 @@ TagManager:
   - Comet
   - Projectile
   - PickUp
+  - selected
+  - TextField
+  - StatsField
+  - GameController1
+  - GameController2
   layers:
   - Default
   - TransparentFX
