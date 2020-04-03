@@ -10,6 +10,9 @@ public class EngineSpecs : MonoBehaviour
     public float minRotSpeed;
     public float maxSpeed;
     public float maxTilt;
+    public float maxCap;
+    public float drainingRate;
+
 
     public float getMoveSpeed()
     {
@@ -36,4 +39,15 @@ public class EngineSpecs : MonoBehaviour
     {
         return maxTilt;
     }
+
+    public float getMaxCap()
+    {
+        return maxCap;
+    }
+
+    public float getDrainingRate()
+    {
+        return drainingRate;
+    }
+
 }

@@ -111,3 +111,5 @@ MonoBehaviour:
   minRotSpeed: 1
   maxSpeed: 80
   maxTilt: 45
+  maxCap: 50
+  drainingRate: 0.0008

@@ -9,8 +9,11 @@ public class ShipController : MonoBehaviour
     //used to differentiate between two ships
     public float number=1;
     public Text velocityText;
+    public Text fuelText;
+    public float rightStickRotSpeed = 100;
     private float xRot;
     private float yRot;
+    private float zRot;
 
     private Rigidbody rb;
     private float vel;
@@ -34,7 +37,12 @@ public class ShipController : MonoBehaviour
     private float minRotSpeed;
     private float maxSpeed;
     private float maxTilt;
+    private float maxEngineHealth;
 
+    //fuel specs
+    private float maxCap;
+    private float drainingRate;
+    private float currentFilled;
 
     private float boostStopSpeed;
     private float rotationSpeed;
@@ -52,30 +60,45 @@ public class ShipController : MonoBehaviour
         minRotSpeed = engineSlot.GetComponentInChildren<EngineSpecs>().getMinRotSpeed();
         maxSpeed = engineSlot.GetComponentInChildren<EngineSpecs>().getMaxSpeed();
         maxTilt = engineSlot.GetComponentInChildren<EngineSpecs>().getMaxTilt();
+        maxEngineHealth = engineHealth;
+       
+        maxCap= engineSlot.GetComponentInChildren<EngineSpecs>().getMaxCap();
+        drainingRate= engineSlot.GetComponentInChildren<EngineSpecs>().getDrainingRate();
+        currentFilled = maxCap;
 
         slowDownTo = 0;
         boostStopSpeed = stopSpeed/2;
        component = (float)Math.Pow(minRotSpeed / maxRotSpeed, 1 / maxSpeed);
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
 
-        Rotate();
+        RotateLeftJoystick();//dependent on speed, directional rotation
+        RotateRightJoystick();//independent from the speed, extra rotation
+        
         if (number == 1)
         {
-            //moves ship forward until while clamping the velocity (hindering inifinte velocity)
-            if (Input.GetButton("Move") && forwardVel < maxSpeed)
+            
+            //moves ship forward until while clamping the velocity (hindering inifinte velocity), checks if there is still fuel
+            if (Input.GetButton("Move"))
             {
-                forwardVel += moveSpeed;
-                slowDownTo = forwardVel;
+                if(forwardVel < maxSpeed && currentFilled > 0)
+                {
+                    forwardVel += moveSpeed;
+                    slowDownTo = forwardVel;
+                }
+                
+                DrainFuel(0);
             }
-            if (Input.GetButton("Boost") && forwardVel > 0)
+            if (Input.GetButton("Boost") && forwardVel > 0 && currentFilled > 0)
             {
                 CalculateBoost();
 
                 DamageEngine();
+                DrainFuel(1);
                 //Debug.Log(" Goal " + slowDownTo + " is " + forwardVel);
             }
             //stops ship without turning it around
@@ -105,6 +128,7 @@ public class ShipController : MonoBehaviour
             rb.velocity = transform.forward * forwardVel;
             //display current velocity
             velocityText.text = forwardVel.ToString("0.0");
+            fuelText.text = currentFilled.ToString("0.0");
 
 
         }
@@ -115,6 +139,7 @@ public class ShipController : MonoBehaviour
             {
                 forwardVel += moveSpeed;
                 slowDownTo = forwardVel;
+
             }
             if (Input.GetButton("Boost1") && forwardVel > 0)
             {
@@ -175,6 +200,26 @@ public class ShipController : MonoBehaviour
 
     }
 
+    //0 for accelerate, 1 for boost, 2 for rotation
+    void DrainFuel(int mode)
+    {
+        float additionalDrain=0;
+        if (mode == 1||mode==0)
+        {
+            additionalDrain = mode*forwardVel * drainingRate*(1 - (engineHealth / maxEngineHealth));
+            currentFilled -= drainingRate * forwardVel + additionalDrain;
+        }
+        
+        if (mode == 2)
+        {
+            additionalDrain = (forwardVel/maxSpeed)*0.001f;
+            currentFilled -= additionalDrain;
+        }
+        currentFilled = Mathf.Clamp(currentFilled,0, maxCap);
+        fuelText.text = currentFilled.ToString("0.0");
+
+    }
+   
     void DamageEngine()
     {
        // engineHealth -= slowDownTo / 2000000;
@@ -189,7 +234,7 @@ public class ShipController : MonoBehaviour
         {
             maxSpeed -= engineHealth/100000000;
         }
-        Debug.Log(maxSpeed);
+        //Debug.Log(maxSpeed);
         //update slowDownTo so that it´s the current max value and not the max value from before the boost
         if (slowDownTo > maxSpeed)
         {
@@ -198,63 +243,102 @@ public class ShipController : MonoBehaviour
        
     }
   
-    private void Rotate()
+    private void RotateRightJoystick()
     {
         if (number == 1)
         {
-            //rotation at medium speed is the highest
-            float factor = (float)Math.Sin(((2 * Math.PI) / (2 * maxSpeed)) * (double)forwardVel);
-            factor = Mathf.Clamp(factor, 0.28f, 0.9f);
-
-
-            rotationSpeed = factor * maxRotSpeed;
-            //prevent back rotation on x and y axis
-            xRot += Input.GetAxis("Vertical") * rotationSpeed;
-            yRot += Input.GetAxis("Horizontal") * rotationSpeed;
-            //rotation on z axis depends on velocity
-            float zRot;
-            zRot = -Input.GetAxis("Horizontal") * factor * (maxTilt);
-            if (forwardVel > 0.5f)//no tilt at 0 
+            if (currentFilled > 0)
             {
-                //(maxSpeed / forwardVel)
-                zRot = -Input.GetAxis("Horizontal") * factor * (maxTilt);
-            }
-            else
-            {
-                zRot = 0;
-            }
+                zRot = Input.GetAxis("VerticalR") * rightStickRotSpeed;
+                //transform.RotateAround(engineSlot.transform.position, Vector3.forward, zRot);
+                if (Input.GetAxis("VerticalR") != 0)
+                {
+                    Debug.Log(Input.GetAxis("VerticalR"));
+                }
+                Quaternion target = Quaternion.Euler(xRot, yRot, zRot);
+                transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.fixedDeltaTime * 5);
+                // transform.rotation = target;
 
-            Quaternion target = Quaternion.Euler(xRot, yRot, zRot);
-            //smooth rotation that rotates back (z axis) when no user input 
-            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
+            }
         }
         else
         {
-            //rotation at medium speed is the highest
-            float factor = (float)Math.Sin(((2 * Math.PI) / (2 * maxSpeed)) * (double)forwardVel);
-            factor = Mathf.Clamp(factor, 0.28f, 0.9f);
 
-
-            rotationSpeed = factor * maxRotSpeed;
-            //prevent back rotation on x and y axis
-            xRot += Input.GetAxis("Vertical1") * rotationSpeed;
-            yRot += Input.GetAxis("Horizontal1") * rotationSpeed;
-            //rotation on z axis depends on velocity
-            float zRot;
-            zRot = -Input.GetAxis("Horizontal1") * factor * (maxTilt);
-            if (forwardVel > 0.5f)//no tilt at 0 
+        }
+    }
+    private void RotateLeftJoystick()
+    {
+        
+        if (number == 1)
+        {
+            if (currentFilled > 0)
             {
-                //(maxSpeed / forwardVel)
+                //rotation at medium speed is the highest
+                float factor = (float)Math.Sin(((2 * Math.PI) / (2 * maxSpeed)) * (double)forwardVel);
+                factor = Mathf.Clamp(factor, 0.28f, 0.9f);
+
+
+                rotationSpeed = factor * maxRotSpeed;
+                //prevent back rotation on x and y axis
+                xRot += Input.GetAxis("Vertical") * rotationSpeed;
+                yRot += Input.GetAxis("Horizontal") * rotationSpeed;
+                //rotation on z axis depends on velocity
+                
+                zRot = -Input.GetAxis("Horizontal") * factor * (maxTilt);
+                if (forwardVel > 0.5f)//no tilt at 0 
+                {
+                    //(maxSpeed / forwardVel)
+                    zRot = -Input.GetAxis("Horizontal") * factor * (maxTilt);
+                    //drain fuel
+                    if (zRot != 0)
+                    {
+                        DrainFuel(2);
+                    }
+
+                }
+                else
+                {
+                    zRot = 0;
+                }
+
+                Quaternion target = Quaternion.Euler(xRot, yRot, zRot);
+                //smooth rotation that rotates back (z axis) when no user input 
+                transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
+            }
+           
+            
+        }
+        else
+        {
+            if (currentFilled > 0)
+            {
+                //rotation at medium speed is the highest
+                float factor = (float)Math.Sin(((2 * Math.PI) / (2 * maxSpeed)) * (double)forwardVel);
+                factor = Mathf.Clamp(factor, 0.28f, 0.9f);
+
+
+                rotationSpeed = factor * maxRotSpeed;
+                //prevent back rotation on x and y axis
+                xRot += Input.GetAxis("Vertical1") * rotationSpeed;
+                yRot += Input.GetAxis("Horizontal1") * rotationSpeed;
+                //rotation on z axis depends on velocity
+                
                 zRot = -Input.GetAxis("Horizontal1") * factor * (maxTilt);
-            }
-            else
-            {
-                zRot = 0;
-            }
+                if (forwardVel > 0.5f)//no tilt at 0 
+                {
+                    //(maxSpeed / forwardVel)
+                    zRot = -Input.GetAxis("Horizontal1") * factor * (maxTilt);
+                }
+                else
+                {
+                    zRot = 0;
+                }
 
-            Quaternion target = Quaternion.Euler(xRot, yRot, zRot);
-            //smooth rotation that rotates back (z axis) when no user input 
-            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
+                Quaternion target = Quaternion.Euler(xRot, yRot, zRot);
+                //smooth rotation that rotates back (z axis) when no user input 
+                transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
+            }
+           
         }
         
     }

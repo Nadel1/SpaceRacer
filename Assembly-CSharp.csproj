@@ -60,12 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Activate.cs" />
-    <Compile Include="Assets\CameraShake.cs" />
-    <Compile Include="Assets\CheckBuildable.cs" />
-    <Compile Include="Assets\Crafting.cs" />
-    <Compile Include="Assets\CraftingSpecs.cs" />
-    <Compile Include="Assets\CraftingStats.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
@@ -73,9 +67,6 @@
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
-    <Compile Include="Assets\Description.cs" />
-    <Compile Include="Assets\DetectExplosion.cs" />
-    <Compile Include="Assets\DisplayText.cs" />
     <Compile Include="Assets\Doozy\Engine\Attributes\MinMaxRangeAttribute.cs" />
     <Compile Include="Assets\Doozy\Engine\Enums\Language.cs" />
     <Compile Include="Assets\Doozy\Engine\Enums\Module.cs" />
@@ -300,20 +291,29 @@
     <Compile Include="Assets\Doozy\Integrations\Playmaker\Actions\Soundy\StopAllSounds.cs" />
     <Compile Include="Assets\Doozy\Integrations\Playmaker\Actions\Soundy\UnmuteAllSounds.cs" />
     <Compile Include="Assets\Doozy\Integrations\Playmaker\Scripts\PlaymakerEventDispatcher.cs" />
-    <Compile Include="Assets\PickUpSpecs.cs" />
-    <Compile Include="Assets\Ressources.cs" />
+    <Compile Include="Assets\Scripts\Activate.cs" />
     <Compile Include="Assets\Scripts\CameraBehaviour.cs" />
+    <Compile Include="Assets\Scripts\CameraShake.cs" />
+    <Compile Include="Assets\Scripts\CheckBuildable.cs" />
+    <Compile Include="Assets\Scripts\Crafting.cs" />
+    <Compile Include="Assets\Scripts\CraftingSpecs.cs" />
+    <Compile Include="Assets\Scripts\CraftingStats.cs" />
     <Compile Include="Assets\Scripts\CrosshairFollow.cs" />
+    <Compile Include="Assets\Scripts\Description.cs" />
     <Compile Include="Assets\Scripts\Destroyable.cs" />
+    <Compile Include="Assets\Scripts\DetectExplosion.cs" />
+    <Compile Include="Assets\Scripts\DisplayText.cs" />
     <Compile Include="Assets\Scripts\EngineSpecs.cs" />
     <Compile Include="Assets\Scripts\GunBehaviour.cs" />
     <Compile Include="Assets\Scripts\GunSpecs.cs" />
     <Compile Include="Assets\Scripts\Move.cs" />
+    <Compile Include="Assets\Scripts\PickUpSpecs.cs" />
     <Compile Include="Assets\Scripts\ProjectileSpecs.cs" />
+    <Compile Include="Assets\Scripts\Ressources.cs" />
     <Compile Include="Assets\Scripts\ShipController.cs" />
     <Compile Include="Assets\Scripts\ShipDestroyable.cs" />
-    <Compile Include="Assets\ShipPickUp.cs" />
-    <Compile Include="Assets\Spin.cs" />
+    <Compile Include="Assets\Scripts\ShipPickUp.cs" />
+    <Compile Include="Assets\Scripts\Spin.cs" />
     <Compile Include="Assets\Starfield Skybox\Demo\Script\LookCamera.cs" />
     <None Include="Assets\Doozy\Examples\Fonts\Quicksand\OFL.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />

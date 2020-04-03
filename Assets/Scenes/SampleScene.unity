@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 81f714daf7144784b8a2f42f1cd30927, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.23236784, g: 0.23553982, b: 0.27230316, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14955,6 +14955,11 @@ PrefabInstance:
       propertyPath: camera
       value: 
       objectReference: {fileID: 534669902}
+    - target: {fileID: 2463388747425231234, guid: c8f1628715e82974c8838387e393f562,
+        type: 3}
+      propertyPath: singlePlayer
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8f1628715e82974c8838387e393f562, type: 3}
 --- !u!1 &1925818766
@@ -16376,6 +16381,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2463388747425231234, guid: c8f1628715e82974c8838387e393f562,
+        type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 534669902}
     - target: {fileID: 2463388747425231232, guid: c8f1628715e82974c8838387e393f562,
         type: 3}
       propertyPath: ressources.Array.size
@@ -16393,11 +16403,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5836150228710951980, guid: 342338096ebd9c241acd00afcaa23c9c,
         type: 3}
-    - target: {fileID: 2463388747425231234, guid: c8f1628715e82974c8838387e393f562,
-        type: 3}
-      propertyPath: camera
-      value: 
-      objectReference: {fileID: 534669902}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8f1628715e82974c8838387e393f562, type: 3}
 --- !u!1001 &4079941924059884710
@@ -16524,6 +16529,18 @@ PrefabInstance:
       objectReference: {fileID: 1281189425}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dfe8e8efa14570419afec1fa240652d, type: 3}
+--- !u!114 &4079941924059884711 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5666670467840874789, guid: 0dfe8e8efa14570419afec1fa240652d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4079941924059884710}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5050817432079640883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16679,6 +16696,16 @@ PrefabInstance:
         type: 3}
       propertyPath: boostAmount
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6746772126908577364, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
+        type: 3}
+      propertyPath: fuelText
+      value: 
+      objectReference: {fileID: 4079941924059884711}
+    - target: {fileID: 6746772126908577364, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
+        type: 3}
+      propertyPath: rightStickRotSpeed
+      value: 122
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21fd7fd11a77c5f409c1f17bc704ddb9, type: 3}
