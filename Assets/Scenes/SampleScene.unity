@@ -16705,7 +16705,7 @@ PrefabInstance:
     - target: {fileID: 6746772126908577364, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
         type: 3}
       propertyPath: rightStickRotSpeed
-      value: 122
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21fd7fd11a77c5f409c1f17bc704ddb9, type: 3}

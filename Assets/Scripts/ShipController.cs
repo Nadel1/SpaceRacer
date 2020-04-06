@@ -10,10 +10,14 @@ public class ShipController : MonoBehaviour
     public float number=1;
     public Text velocityText;
     public Text fuelText;
-    public float rightStickRotSpeed = 100;
+    public float rightStickRotSpeed = 122;
+    //splits rotation in ship rotation and camera rotation
     private float xRot;
+    private float xCamRot;
     private float yRot;
+    private float yCamRot;
     private float zRot;
+    private float zCamRot;
 
     private Rigidbody rb;
     private float vel;
@@ -48,11 +52,17 @@ public class ShipController : MonoBehaviour
     private float rotationSpeed;
     private float component;
 
+    //components to rotate the ship without the rotation affecting the camera
+    private GameObject shipShell;
+    private float rotRightStick;
+
     // Start is called before the first frame update
     void Start()
     {
         rb= GetComponent<Rigidbody>();
         engineSlot = GameObject.Find("EngineSlot");
+        //shipshell is used for right joystick rotation
+        shipShell = GameObject.Find("ShipShell");
         //get the attributes from the engine compartment
         moveSpeed = engineSlot.GetComponentInChildren<EngineSpecs>().getMoveSpeed();
         stopSpeed = engineSlot.GetComponentInChildren<EngineSpecs>().getStopSpeed();
@@ -68,8 +78,10 @@ public class ShipController : MonoBehaviour
 
         slowDownTo = 0;
         boostStopSpeed = stopSpeed/2;
-       component = (float)Math.Pow(minRotSpeed / maxRotSpeed, 1 / maxSpeed);
+        component = (float)Math.Pow(minRotSpeed / maxRotSpeed, 1 / maxSpeed);
+        rotRightStick = 0;
 
+  
     }
 
     // Update is called once per frame
@@ -249,14 +261,10 @@ public class ShipController : MonoBehaviour
         {
             if (currentFilled > 0)
             {
-                zRot = Input.GetAxis("VerticalR") * rightStickRotSpeed;
-                //transform.RotateAround(engineSlot.transform.position, Vector3.forward, zRot);
-                if (Input.GetAxis("VerticalR") != 0)
-                {
-                    Debug.Log(Input.GetAxis("VerticalR"));
-                }
-                Quaternion target = Quaternion.Euler(xRot, yRot, zRot);
-                transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.fixedDeltaTime * 5);
+                rotRightStick= -Input.GetAxis("VerticalR") * rightStickRotSpeed;
+                Quaternion target = Quaternion.Euler(0, 0, rotRightStick);
+                //the ship model is rotated, therefore not affecting the camera rotation
+                shipShell.transform.localRotation = Quaternion.Slerp(shipShell.transform.localRotation, target, Time.fixedDeltaTime *10);
                 // transform.rotation = target;
 
             }
@@ -282,9 +290,12 @@ public class ShipController : MonoBehaviour
                 //prevent back rotation on x and y axis
                 xRot += Input.GetAxis("Vertical") * rotationSpeed;
                 yRot += Input.GetAxis("Horizontal") * rotationSpeed;
+
+                
                 //rotation on z axis depends on velocity
                 
                 zRot = -Input.GetAxis("Horizontal") * factor * (maxTilt);
+                
                 if (forwardVel > 0.5f)//no tilt at 0 
                 {
                     //(maxSpeed / forwardVel)
@@ -300,10 +311,11 @@ public class ShipController : MonoBehaviour
                 {
                     zRot = 0;
                 }
-
+                
                 Quaternion target = Quaternion.Euler(xRot, yRot, zRot);
                 //smooth rotation that rotates back (z axis) when no user input 
                 transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
+               
             }
            
             
@@ -353,7 +365,6 @@ public class ShipController : MonoBehaviour
         return maxSpeed;
     }
 
-  
 }
 
 
