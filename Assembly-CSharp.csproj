@@ -309,6 +309,7 @@
     <Compile Include="Assets\Scripts\Move.cs" />
     <Compile Include="Assets\Scripts\PickUpSpecs.cs" />
     <Compile Include="Assets\Scripts\ProjectileSpecs.cs" />
+    <Compile Include="Assets\Scripts\RefuelShip.cs" />
     <Compile Include="Assets\Scripts\Ressources.cs" />
     <Compile Include="Assets\Scripts\ShipController.cs" />
     <Compile Include="Assets\Scripts\ShipDestroyable.cs" />

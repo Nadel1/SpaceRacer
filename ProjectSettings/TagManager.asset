@@ -12,6 +12,8 @@ TagManager:
   - StatsField
   - GameController1
   - GameController2
+  - GasStation
+  - PlayerShip
   layers:
   - Default
   - TransparentFX
