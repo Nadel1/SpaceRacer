@@ -55,6 +55,7 @@ public class ShipController : MonoBehaviour
     //components to rotate the ship without the rotation affecting the camera
     private GameObject shipShell;
     private float rotRightStick;
+    private Quaternion target;
 
     // Start is called before the first frame update
     void Start()
@@ -80,8 +81,8 @@ public class ShipController : MonoBehaviour
         boostStopSpeed = stopSpeed/2;
         component = (float)Math.Pow(minRotSpeed / maxRotSpeed, 1 / maxSpeed);
         rotRightStick = 0;
+        target = Quaternion.Euler(0, 0, 0);
 
-  
     }
 
     // Update is called once per frame
@@ -254,18 +255,30 @@ public class ShipController : MonoBehaviour
         }
        
     }
-  
+
+    
+
     private void RotateRightJoystick()
     {
+        
         if (number == 1)
         {
             if (currentFilled > 0)
             {
-                rotRightStick= -Input.GetAxis("VerticalR") * rightStickRotSpeed;
-                Quaternion target = Quaternion.Euler(0, 0, rotRightStick);
+                if (Input.GetAxis("VerticalR")>=0&&Input.GetAxis("HorizontalR") !=0)
+                {
+                    float temp = Mathf.Atan(Input.GetAxis("VerticalR") / Input.GetAxis("HorizontalR"));
+                    rotRightStick = temp * rightStickRotSpeed;
+                    Mathf.Clamp(rotRightStick, -70, 70);
+
+                    // rotRightStick = -Input.GetAxis("VerticalR") * rightStickRotSpeed;
+                    target = Quaternion.Euler(0, 0, -rotRightStick);
+                    
+                    // transform.rotation = target;
+                }
                 //the ship model is rotated, therefore not affecting the camera rotation
-                shipShell.transform.localRotation = Quaternion.Slerp(shipShell.transform.localRotation, target, Time.fixedDeltaTime *10);
-                // transform.rotation = target;
+                shipShell.transform.localRotation = Quaternion.Slerp(shipShell.transform.localRotation, target, Time.fixedDeltaTime * 10);
+
 
             }
         }
