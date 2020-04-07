@@ -57,6 +57,13 @@ public class ShipController : MonoBehaviour
     private float rotRightStick;
     private Quaternion target;
 
+    private enum States
+    {
+        Blocked,
+        Free
+    };
+    private States state;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -83,66 +90,71 @@ public class ShipController : MonoBehaviour
         rotRightStick = 0;
         target = Quaternion.Euler(0, 0, 0);
 
+        state = States.Free;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
+       
         RotateLeftJoystick();//dependent on speed, directional rotation
         RotateRightJoystick();//independent from the speed, extra rotation
         
         if (number == 1)
         {
-            
-            //moves ship forward until while clamping the velocity (hindering inifinte velocity), checks if there is still fuel
-            if (Input.GetButton("Move"))
+            if (state == States.Free)
             {
-                if(forwardVel < maxSpeed && currentFilled > 0)
+
+                //moves ship forward until while clamping the velocity (hindering inifinte velocity), checks if there is still fuel
+                if (Input.GetButton("Move"))
                 {
-                    forwardVel += moveSpeed;
-                    slowDownTo = forwardVel;
+                    if (forwardVel < maxSpeed && currentFilled > 0)
+                    {
+                        forwardVel += moveSpeed;
+                        slowDownTo = forwardVel;
+                    }
+
+                    DrainFuel(0);
                 }
-                
-                DrainFuel(0);
-            }
-            if (Input.GetButton("Boost") && forwardVel > 0 && currentFilled > 0)
-            {
-                CalculateBoost();
-
-                DamageEngine();
-                DrainFuel(1);
-                //Debug.Log(" Goal " + slowDownTo + " is " + forwardVel);
-            }
-            //stops ship without turning it around
-            if (Input.GetButton("stop") && Vector3.Dot(transform.forward, rb.velocity) > 0)
-            {
-
-                forwardVel -= stopSpeed;
-            }
-
-            if (boosted && Vector3.Dot(transform.forward, rb.velocity) > 0 && forwardVel > slowDownTo)
-            {
-                if (!Input.GetButton("Boost"))
+                if (Input.GetButton("Boost") && forwardVel > 0 && currentFilled > 0)
                 {
+                    CalculateBoost();
+
+                    DamageEngine();
+                    DrainFuel(1);
+                    //Debug.Log(" Goal " + slowDownTo + " is " + forwardVel);
+                }
+                //stops ship without turning it around
+                if (Input.GetButton("stop") && Vector3.Dot(transform.forward, rb.velocity) > 0)
+                {
+
                     forwardVel -= stopSpeed;
                 }
 
-            }
-            if (Vector3.Dot(transform.forward, rb.velocity) <= 0 || forwardVel <= slowDownTo)
-            {
-                boosted = false;
-                slowDownTo = forwardVel;
-                boost = 0;
-            }
-            //clamp the velocity for the display
-            forwardVel = Mathf.Clamp(forwardVel, 0, 2500);
-            //actually moves the ship
-            rb.velocity = transform.forward * forwardVel;
-            //display current velocity
-            velocityText.text = forwardVel.ToString("0.0");
-            fuelText.text = currentFilled.ToString("0.0");
+                if (boosted && Vector3.Dot(transform.forward, rb.velocity) > 0 && forwardVel > slowDownTo)
+                {
+                    if (!Input.GetButton("Boost"))
+                    {
+                        forwardVel -= stopSpeed;
+                    }
 
+                }
+                if (Vector3.Dot(transform.forward, rb.velocity) <= 0 || forwardVel <= slowDownTo)
+                {
+                    boosted = false;
+                    slowDownTo = forwardVel;
+                    boost = 0;
+                }
+                //clamp the velocity for the display
+                forwardVel = Mathf.Clamp(forwardVel, 0, 2500);
+                //actually moves the ship
+                rb.velocity = transform.forward * forwardVel;
+                //display current velocity
+                velocityText.text = forwardVel.ToString("0.0");
+                fuelText.text = currentFilled.ToString("0.0");
+
+
+            }
 
         }
         else
@@ -284,7 +296,28 @@ public class ShipController : MonoBehaviour
         }
         else
         {
+            //todo: adjust for second player
+            if (number == 2)
+            {
+                if (currentFilled > 0)
+                {
+                    if (Input.GetAxis("VerticalR") >= 0 && Input.GetAxis("HorizontalR") != 0)
+                    {
+                        float temp = Mathf.Atan(Input.GetAxis("VerticalR") / Input.GetAxis("HorizontalR"));
+                        rotRightStick = temp * rightStickRotSpeed;
+                        Mathf.Clamp(rotRightStick, -70, 70);
 
+                        // rotRightStick = -Input.GetAxis("VerticalR") * rightStickRotSpeed;
+                        target = Quaternion.Euler(0, 0, -rotRightStick);
+
+                        // transform.rotation = target;
+                    }
+                    //the ship model is rotated, therefore not affecting the camera rotation
+                    shipShell.transform.localRotation = Quaternion.Slerp(shipShell.transform.localRotation, target, Time.fixedDeltaTime * 10);
+
+
+                }
+            }
         }
     }
     private void RotateLeftJoystick()
@@ -368,6 +401,27 @@ public class ShipController : MonoBehaviour
         
     }
 
+    public void block()
+    {
+        Debug.Log("Block");
+        state = States.Blocked;
+        StartCoroutine(Stopping());
+        state = States.Free;
+    }
+
+    IEnumerator Stopping()
+    {
+        while (Vector3.Dot(transform.forward, rb.velocity) > 0)
+        {
+
+            forwardVel -= 1.5f;
+            rb.velocity = transform.forward * forwardVel;
+        }
+        
+        yield return new WaitForSeconds(10);
+    }
+
+
     public float getForwardVel()
     {
         return forwardVel;
@@ -376,6 +430,12 @@ public class ShipController : MonoBehaviour
     public float getMaxVel()
     {
         return maxSpeed;
+    }
+
+   
+    public void setForwardVel(float forwardVel)
+    {
+        this.forwardVel = forwardVel;
     }
 
 }

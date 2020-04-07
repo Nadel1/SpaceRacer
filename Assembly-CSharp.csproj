@@ -292,6 +292,7 @@
     <Compile Include="Assets\Doozy\Integrations\Playmaker\Actions\Soundy\UnmuteAllSounds.cs" />
     <Compile Include="Assets\Doozy\Integrations\Playmaker\Scripts\PlaymakerEventDispatcher.cs" />
     <Compile Include="Assets\Scripts\Activate.cs" />
+    <Compile Include="Assets\Scripts\AreaNotify.cs" />
     <Compile Include="Assets\Scripts\CameraBehaviour.cs" />
     <Compile Include="Assets\Scripts\CameraShake.cs" />
     <Compile Include="Assets\Scripts\CheckBuildable.cs" />
