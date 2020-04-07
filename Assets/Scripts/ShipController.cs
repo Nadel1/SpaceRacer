@@ -57,7 +57,8 @@ public class ShipController : MonoBehaviour
     private float rotRightStick;
     private Quaternion target;
 
-    private enum States
+    //states are used to block ships movement, for example when the player is interacting with a shop
+    public enum States
     {
         Blocked,
         Free
@@ -403,14 +404,17 @@ public class ShipController : MonoBehaviour
 
     public void block()
     {
-        Debug.Log("Block");
+        //block movement of ship
         state = States.Blocked;
+        //adjust the velocity display
+        velocityText.text = "0.0";
         StartCoroutine(Stopping());
-        state = States.Free;
+        
     }
 
     IEnumerator Stopping()
     {
+        //stop the ship
         while (Vector3.Dot(transform.forward, rb.velocity) > 0)
         {
 
@@ -437,7 +441,18 @@ public class ShipController : MonoBehaviour
     {
         this.forwardVel = forwardVel;
     }
-
+    public void SetState(States state)
+    {
+        this.state = state;
+    }
+    public float getMaxCap()
+    {
+        return maxCap;
+    }
+    public void setCurrentFilled(float fill)
+    {
+        currentFilled = fill;
+    }
 }
 
 

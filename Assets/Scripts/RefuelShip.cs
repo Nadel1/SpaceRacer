@@ -14,7 +14,7 @@ public class RefuelShip : MonoBehaviour
     private void Start()
     {
         welcomeText.text = "Welcome to the Gasstation!";
-        serviceText.text = "What can we do for you?\n Refuel: right arrow";
+        serviceText.text = "What can we do for you?\n Refuel: O\n Exit: square";
         welcomeText.gameObject.SetActive(false);
         serviceText.gameObject.SetActive(false);
     }
@@ -22,7 +22,21 @@ public class RefuelShip : MonoBehaviour
     {
         if (welcomeText.IsActive())
         {
-           ship.transform.position = Vector3.Lerp(ship.transform.position,parkingSpace.transform.position, 2f*Time.fixedDeltaTime);
+            //position the ship in parking space smoothly
+            ship.transform.position = Vector3.Lerp(ship.transform.position,parkingSpace.transform.position, 2f*Time.fixedDeltaTime);
+            if (Input.GetButton("Confirm"))
+            {
+                //set current filled of the ship to its max and give the player the controll over the ship back
+                ship.GetComponent<ShipController>().setCurrentFilled(ship.GetComponent<ShipController>().getMaxCap());
+                serviceText.text = "Alright, all done!\n Have a nice day";
+                ship.GetComponent<ShipController>().SetState(ShipController.States.Free);
+            }
+            //unblock the ships movement when player cancels
+            if (Input.GetButton("Cancel"))
+            {
+                ship.GetComponent<ShipController>().SetState(ShipController.States.Free);
+            }
+               
         }
     }
 
@@ -33,12 +47,9 @@ public class RefuelShip : MonoBehaviour
             welcomeText.gameObject.SetActive(true);
             serviceText.gameObject.SetActive(true);
             //check wether or not parking space is full
-            //position the ship in parking space
-
             ship = other.gameObject;
             //block ships movement
             other.gameObject.GetComponent<ShipController>().block();
-            //other.gameObject.transform.position = Vector3.MoveTowards(transform.position, parkingSpace.position, 0.5f);
             //todo: fix the rotation so that the ship faces along the parking space
             //other.gameObject.transform.Rotate(0, 90, 0, Space.World);
         }
