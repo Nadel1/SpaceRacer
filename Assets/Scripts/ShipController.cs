@@ -13,14 +13,12 @@ public class ShipController : MonoBehaviour
     public float rightStickRotSpeed = 122;
     //splits rotation in ship rotation and camera rotation
     private float xRot;
-    private float xCamRot;
     private float yRot;
-    private float yCamRot;
     private float zRot;
-    private float zCamRot;
+
 
     private Rigidbody rb;
-    private float vel;
+
 
 
     private float forwardVel;
@@ -56,6 +54,8 @@ public class ShipController : MonoBehaviour
     private GameObject shipShell;
     private float rotRightStick;
     private Quaternion target;
+    private Quaternion leftTarget;
+
 
     //states are used to block ships movement, for example when the player is interacting with a shop
     public enum States
@@ -92,6 +92,7 @@ public class ShipController : MonoBehaviour
         target = Quaternion.Euler(0, 0, 0);
 
         state = States.Free;
+
     }
 
     // Update is called once per frame
@@ -359,9 +360,9 @@ public class ShipController : MonoBehaviour
                     zRot = 0;
                 }
                 
-                Quaternion target = Quaternion.Euler(xRot, yRot, zRot);
+                leftTarget = Quaternion.Euler(xRot, yRot, zRot);
                 //smooth rotation that rotates back (z axis) when no user input 
-                transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
+                transform.rotation = Quaternion.Slerp(transform.rotation, leftTarget, Time.deltaTime * 5);
                
             }
            
@@ -393,9 +394,9 @@ public class ShipController : MonoBehaviour
                     zRot = 0;
                 }
 
-                Quaternion target = Quaternion.Euler(xRot, yRot, zRot);
+                leftTarget = Quaternion.Euler(xRot, yRot, zRot);
                 //smooth rotation that rotates back (z axis) when no user input 
-                transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 5);
+                transform.rotation = Quaternion.Slerp(transform.rotation, leftTarget, Time.deltaTime * 5);
             }
            
         }
@@ -408,6 +409,7 @@ public class ShipController : MonoBehaviour
         state = States.Blocked;
         //adjust the velocity display
         velocityText.text = "0.0";
+        leftTarget = transform.rotation;
         StartCoroutine(Stopping());
         
     }

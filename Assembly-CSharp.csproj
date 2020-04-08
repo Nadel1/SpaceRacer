@@ -318,6 +318,7 @@
     <Compile Include="Assets\Scripts\Spin.cs" />
     <Compile Include="Assets\Starfield Skybox\Demo\Script\LookCamera.cs" />
     <None Include="Assets\Doozy\Examples\Fonts\Quicksand\OFL.txt" />
+    <None Include="Assets\Shader\Hologram.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\Doozy\Examples\Fonts\Montserrat\OFL.txt" />

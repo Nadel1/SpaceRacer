@@ -845,7 +845,7 @@ Transform:
   m_GameObject: {fileID: 127705788}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 1.7, y: -1.4, z: -19.3}
-  m_LocalScale: {x: 15, y: 0.2, z: 10}
+  m_LocalScale: {x: 8.5296, y: 0.2, z: 20.039001}
   m_Children: []
   m_Father: {fileID: 781886333}
   m_RootOrder: 1
@@ -880,7 +880,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e72ff54a0032c854fad2019338b6d18c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5012,6 +5012,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   areaText: {fileID: 257393073}
   text: Gas Station
+  waitForSeconds: 5
 --- !u!135 &781886335
 SphereCollider:
   m_ObjectHideFlags: 0
