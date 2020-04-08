@@ -10383,7 +10383,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   welcomeText: {fileID: 989354533}
   serviceText: {fileID: 1180741233}
+  service: 'What can we do for you?\n Refuel: O\n Exit: square'
   parkingSpace: {fileID: 127705789}
+  minPricePerLiter: 5
+  priceTime: 30
+  maxCapacityFuel: 10000
+  averageChange: 4
+  price: 0
 --- !u!65 &1650761957
 BoxCollider:
   m_ObjectHideFlags: 0

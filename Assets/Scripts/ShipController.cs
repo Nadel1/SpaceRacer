@@ -455,6 +455,10 @@ public class ShipController : MonoBehaviour
     {
         currentFilled = fill;
     }
+    public float getCurrentFilled()
+    {
+        return currentFilled;
+    }
 }
 
 
