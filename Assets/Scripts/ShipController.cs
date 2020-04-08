@@ -98,14 +98,14 @@ public class ShipController : MonoBehaviour
     void FixedUpdate()
     {
        
-        RotateLeftJoystick();//dependent on speed, directional rotation
-        RotateRightJoystick();//independent from the speed, extra rotation
+        
         
         if (number == 1)
         {
             if (state == States.Free)
             {
-
+                RotateLeftJoystick();//dependent on speed, directional rotation
+                RotateRightJoystick();//independent from the speed, extra rotation
                 //moves ship forward until while clamping the velocity (hindering inifinte velocity), checks if there is still fuel
                 if (Input.GetButton("Move"))
                 {

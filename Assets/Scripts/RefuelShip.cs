@@ -24,6 +24,7 @@ public class RefuelShip : MonoBehaviour
         {
             //position the ship in parking space smoothly
             ship.transform.position = Vector3.Lerp(ship.transform.position,parkingSpace.transform.position, 2f*Time.fixedDeltaTime);
+            ship.transform.rotation = Quaternion.Lerp(ship.transform.rotation,parkingSpace.transform.rotation,2*Time.fixedDeltaTime);
             if (Input.GetButton("Confirm"))
             {
                 //set current filled of the ship to its max and give the player the controll over the ship back
@@ -51,7 +52,7 @@ public class RefuelShip : MonoBehaviour
             //block ships movement
             other.gameObject.GetComponent<ShipController>().block();
             //todo: fix the rotation so that the ship faces along the parking space
-            //other.gameObject.transform.Rotate(0, 90, 0, Space.World);
+            
         }
     }
 
