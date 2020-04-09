@@ -161,6 +161,9 @@ public class ShipController : MonoBehaviour
         }
         else
         {
+
+            RotateLeftJoystick();//dependent on speed, directional rotation
+            RotateRightJoystick();//independent from the speed, extra rotation
             //moves ship forward until while clamping the velocity (hindering inifinte velocity)
             if (Input.GetButton("Move1") && forwardVel < maxSpeed)
             {
@@ -303,9 +306,9 @@ public class ShipController : MonoBehaviour
             {
                 if (currentFilled > 0)
                 {
-                    if (Input.GetAxis("VerticalR") >= 0 && Input.GetAxis("HorizontalR") != 0)
+                    if (Input.GetAxis("VerticalR1") >= 0 && Input.GetAxis("HorizontalR1") != 0)
                     {
-                        float temp = Mathf.Atan(Input.GetAxis("VerticalR") / Input.GetAxis("HorizontalR"));
+                        float temp = Mathf.Atan(Input.GetAxis("VerticalR1") / Input.GetAxis("HorizontalR1"));
                         rotRightStick = temp * rightStickRotSpeed;
                         Mathf.Clamp(rotRightStick, -70, 70);
 
