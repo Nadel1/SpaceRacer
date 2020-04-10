@@ -205,7 +205,7 @@ public class ShipController : MonoBehaviour
             rb.velocity = transform.forward * forwardVel;
             //display current velocity
             velocityText.text = forwardVel.ToString("0.0");
-
+            fuelText.text = currentFilled.ToString("0.0");
 
         }
 
@@ -285,7 +285,7 @@ public class ShipController : MonoBehaviour
 
                 if (Input.GetAxis("VerticalR")>=0&&Input.GetAxis("HorizontalR") !=0)
                 {
-                    Debug.Log("rotate right");
+
                     float temp = Mathf.Atan(Input.GetAxis("VerticalR") / Input.GetAxis("HorizontalR"));
                     rotRightStick = temp * rightStickRotSpeed;
                     Mathf.Clamp(rotRightStick, -70, 70);
