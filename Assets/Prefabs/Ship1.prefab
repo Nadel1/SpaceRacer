@@ -346,6 +346,7 @@ MonoBehaviour:
   fuelText: {fileID: 0}
   rightStickRotSpeed: 122
   boosted: 0
+  shipShell: {fileID: 0}
 --- !u!65 &6746772126908577704
 BoxCollider:
   m_ObjectHideFlags: 0

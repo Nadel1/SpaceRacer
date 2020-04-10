@@ -51,7 +51,7 @@ public class ShipController : MonoBehaviour
     private float component;
 
     //components to rotate the ship without the rotation affecting the camera
-    private GameObject shipShell;
+    public GameObject shipShell;
     private float rotRightStick;
     private Quaternion target;
     private Quaternion leftTarget;
@@ -71,7 +71,7 @@ public class ShipController : MonoBehaviour
         rb= GetComponent<Rigidbody>();
         engineSlot = GameObject.Find("EngineSlot");
         //shipshell is used for right joystick rotation
-        shipShell = GameObject.Find("ShipShell");
+        //shipShell = GameObject.Find("ShipShell");
         //get the attributes from the engine compartment
         moveSpeed = engineSlot.GetComponentInChildren<EngineSpecs>().getMoveSpeed();
         stopSpeed = engineSlot.GetComponentInChildren<EngineSpecs>().getStopSpeed();
@@ -282,8 +282,10 @@ public class ShipController : MonoBehaviour
         {
             if (currentFilled > 0)
             {
+
                 if (Input.GetAxis("VerticalR")>=0&&Input.GetAxis("HorizontalR") !=0)
                 {
+                    Debug.Log("rotate right");
                     float temp = Mathf.Atan(Input.GetAxis("VerticalR") / Input.GetAxis("HorizontalR"));
                     rotRightStick = temp * rightStickRotSpeed;
                     Mathf.Clamp(rotRightStick, -70, 70);
@@ -301,9 +303,7 @@ public class ShipController : MonoBehaviour
         }
         else
         {
-            //todo: adjust for second player
-            if (number == 2)
-            {
+            
                 if (currentFilled > 0)
                 {
                     if (Input.GetAxis("VerticalR1") >= 0 && Input.GetAxis("HorizontalR1") != 0)
@@ -322,7 +322,7 @@ public class ShipController : MonoBehaviour
 
 
                 }
-            }
+            
         }
     }
     private void RotateLeftJoystick()

@@ -1664,6 +1664,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abad2f0b359f8a445a4c199a05691f84, type: 3}
+--- !u!1 &446536735 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6746772125790446533, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1180217632}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &464353970
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4350,6 +4356,11 @@ PrefabInstance:
       propertyPath: fuelText
       value: 
       objectReference: {fileID: 1971942477}
+    - target: {fileID: 6746772126908577364, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
+        type: 3}
+      propertyPath: shipShell
+      value: 
+      objectReference: {fileID: 446536735}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21fd7fd11a77c5f409c1f17bc704ddb9, type: 3}
 --- !u!1 &1180217633 stripped
@@ -7448,6 +7459,11 @@ PrefabInstance:
       propertyPath: fuelText
       value: 
       objectReference: {fileID: 1971942477}
+    - target: {fileID: 6746772126908577364, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
+        type: 3}
+      propertyPath: shipShell
+      value: 
+      objectReference: {fileID: 1897018480}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21fd7fd11a77c5f409c1f17bc704ddb9, type: 3}
 --- !u!1 &1864663902 stripped
@@ -7587,6 +7603,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 465686, guid: ea3b1b7de8e530346b335abce83beb31,
     type: 3}
   m_PrefabInstance: {fileID: 1893132980}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1897018480 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6746772125790446533, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1864663901}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1897049858 stripped
 Transform:
