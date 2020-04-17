@@ -3073,6 +3073,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4b4c5b3284370f408081aed8b903844, type: 3}
+--- !u!1 &493796931 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6746772125790446533, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
+    type: 3}
+  m_PrefabInstance: {fileID: 6746772125354453334}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &493911842
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17414,6 +17420,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: PlayerShip
       objectReference: {fileID: 0}
+    - target: {fileID: 6746772125790446533, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6746772126908577367, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17489,11 +17500,11 @@ PrefabInstance:
       propertyPath: rightStickRotSpeed
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 6746772125790446533, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
+    - target: {fileID: 6746772126908577364, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
         type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
+      propertyPath: shipShell
+      value: 
+      objectReference: {fileID: 493796931}
     - target: {fileID: 6746772126908577704, guid: 21fd7fd11a77c5f409c1f17bc704ddb9,
         type: 3}
       propertyPath: m_Enabled
