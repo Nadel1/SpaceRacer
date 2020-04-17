@@ -33,7 +33,7 @@ public class DetectExplosion : MonoBehaviour
         if (explosion)
         {
             float distance = Vector3.Distance(explosionOrigin, playerPos);
-            camera.GetComponent<CameraShake>().ShakeIt(distance);
+            camera.GetComponent<CameraShake>().induceStress(10000/distance);
             explosion = false;
         }
     }

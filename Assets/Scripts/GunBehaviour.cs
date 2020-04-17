@@ -22,6 +22,7 @@ public class GunBehaviour : MonoBehaviour
     private float nextFire;
 
     private float number;
+    private GameObject camera;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +34,7 @@ public class GunBehaviour : MonoBehaviour
         fireRate = GetComponentInChildren<GunSpecs>().getFireRate();
         range = GetComponentInChildren<GunSpecs>().getRange();
         number = GetComponentInParent<ShipController>().number;
+        camera = GameObject.FindGameObjectWithTag("MainCamera");
         
     }
 
@@ -71,6 +73,9 @@ public class GunBehaviour : MonoBehaviour
             if (Input.GetButton("Shoot") && Time.time > nextFire)
             {
                 nextFire = Time.time + fireRate;
+
+                camera.GetComponent<CameraShake>().induceStress(0.5f);
+
                 GameObject shot = Instantiate(projectile, shootFrom.transform.position, gameObject.transform.rotation);
                 shot.GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
                 Destroy(shot, range);
