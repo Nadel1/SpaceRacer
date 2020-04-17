@@ -74,7 +74,7 @@ public class GunBehaviour : MonoBehaviour
             {
                 nextFire = Time.time + fireRate;
 
-                camera.GetComponent<CameraShake>().induceStress(0.5f);
+                camera.GetComponent<CameraShake>().induceStress(0.8f);
 
                 GameObject shot = Instantiate(projectile, shootFrom.transform.position, gameObject.transform.rotation);
                 shot.GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
@@ -86,6 +86,8 @@ public class GunBehaviour : MonoBehaviour
             if (Input.GetButton("Shoot1") && Time.time > nextFire)
             {
                 nextFire = Time.time + fireRate;
+
+                camera.GetComponent<CameraShake>().induceStress(0.8f);
                 GameObject shot = Instantiate(projectile, shootFrom.transform.position, gameObject.transform.rotation);
                 shot.GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
                 Destroy(shot, range);
