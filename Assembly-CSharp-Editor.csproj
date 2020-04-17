@@ -555,6 +555,9 @@
     <Reference Include="DDebug">
       <HintPath>C:/Users/natal/UnityProjekte/SpaceRacer/Assets/Doozy/Engine/Debug/DDebug.dll</HintPath>
     </Reference>
+    <Reference Include="XInputDotNetPure">
+      <HintPath>C:/Users/natal/UnityProjekte/SpaceRacer/Assets/XInputDotNet/Plugins/XInputDotNetPure.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>C:/Users/natal/UnityProjekte/SpaceRacer/Library/PackageCache/com.unity.ads@2.3.1/Editor/UnityEditor.Advertisements.dll</HintPath>
     </Reference>
